@@ -85,9 +85,11 @@ enum MLOperandDataType {
   "uint8"
 };
 
+typedef [EnforceRange] unsigned long Index32;
+
 dictionary MLOperandDescriptor {
   required MLOperandDataType dataType;
-  required sequence<[EnforceRange] unsigned long> shape;
+  required sequence<Index32> shape;
 };
 
 [SecureContext, Exposed=(Window, DedicatedWorker)]
@@ -210,9 +212,9 @@ enum MLConv2dFilterOperandLayout {
 };
 
 dictionary MLConv2dOptions : MLOperatorOptions {
-  sequence<[EnforceRange] unsigned long> padding;
-  sequence<[EnforceRange] unsigned long> strides;
-  sequence<[EnforceRange] unsigned long> dilations;
+  sequence<Index32> padding;
+  sequence<Index32> strides;
+  sequence<Index32> dilations;
   [EnforceRange] unsigned long groups = 1;
   MLInputOperandLayout inputLayout = "nchw";
   MLConv2dFilterOperandLayout filterLayout = "oihw";
@@ -243,11 +245,11 @@ enum MLConvTranspose2dFilterOperandLayout {
 };
 
 dictionary MLConvTranspose2dOptions : MLOperatorOptions {
-  sequence<[EnforceRange] unsigned long> padding;
-  sequence<[EnforceRange] unsigned long> strides;
-  sequence<[EnforceRange] unsigned long> dilations;
-  sequence<[EnforceRange] unsigned long> outputPadding;
-  sequence<[EnforceRange] unsigned long> outputSizes;
+  sequence<Index32> padding;
+  sequence<Index32> strides;
+  sequence<Index32> dilations;
+  sequence<Index32> outputPadding;
+  sequence<Index32> outputSizes;
   [EnforceRange] unsigned long groups = 1;
   MLInputOperandLayout inputLayout = "nchw";
   MLConvTranspose2dFilterOperandLayout filterLayout = "iohw";
@@ -362,7 +364,7 @@ partial dictionary MLOpSupportLimits {
 
 partial interface MLGraphBuilder {
   MLOperand expand(MLOperand input,
-                   sequence<[EnforceRange] unsigned long> newShape,
+                   sequence<Index32> newShape,
                    optional MLOperatorOptions options = {});
 };
 
@@ -550,7 +552,7 @@ partial dictionary MLOpSupportLimits {
 dictionary MLLayerNormalizationOptions : MLOperatorOptions {
   MLOperand scale;
   MLOperand bias;
-  sequence<[EnforceRange] unsigned long> axes;
+  sequence<Index32> axes;
   double epsilon = 1e-5;
 };
 
@@ -687,8 +689,8 @@ dictionary MLPadOptions : MLOperatorOptions {
 
 partial interface MLGraphBuilder {
   MLOperand pad(MLOperand input,
-                sequence<[EnforceRange] unsigned long> beginningPadding,
-                sequence<[EnforceRange] unsigned long> endingPadding,
+                sequence<Index32> beginningPadding,
+                sequence<Index32> endingPadding,
                 optional MLPadOptions options = {});
 };
 
@@ -702,13 +704,13 @@ enum MLRoundingType {
 };
 
 dictionary MLPool2dOptions : MLOperatorOptions {
-  sequence<[EnforceRange] unsigned long> windowDimensions;
-  sequence<[EnforceRange] unsigned long> padding;
-  sequence<[EnforceRange] unsigned long> strides;
-  sequence<[EnforceRange] unsigned long> dilations;
+  sequence<Index32> windowDimensions;
+  sequence<Index32> padding;
+  sequence<Index32> strides;
+  sequence<Index32> dilations;
   MLInputOperandLayout layout = "nchw";
   MLRoundingType roundingType = "floor";
-  sequence<[EnforceRange] unsigned long> outputSizes;
+  sequence<Index32> outputSizes;
 };
 
 partial interface MLGraphBuilder {
@@ -740,7 +742,7 @@ partial dictionary MLOpSupportLimits {
 };
 
 dictionary MLReduceOptions : MLOperatorOptions {
-  sequence<[EnforceRange] unsigned long> axes;
+  sequence<Index32> axes;
   boolean keepDimensions = false;
 };
 
@@ -786,8 +788,8 @@ enum MLInterpolationMode {
 dictionary MLResample2dOptions : MLOperatorOptions {
   MLInterpolationMode mode = "nearest-neighbor";
   sequence<float> scales;
-  sequence<[EnforceRange] unsigned long> sizes;
-  sequence<[EnforceRange] unsigned long> axes;
+  sequence<Index32> sizes;
+  sequence<Index32> axes;
 };
 
 partial interface MLGraphBuilder {
@@ -800,7 +802,7 @@ partial dictionary MLOpSupportLimits {
 
 partial interface MLGraphBuilder {
   MLOperand reshape(MLOperand input,
-                    sequence<[EnforceRange] unsigned long> newShape,
+                    sequence<Index32> newShape,
                     optional MLOperatorOptions options = {});
 };
 
@@ -818,8 +820,8 @@ partial dictionary MLOpSupportLimits {
 
 partial interface MLGraphBuilder {
   MLOperand slice(MLOperand input,
-                  sequence<[EnforceRange] unsigned long> starts,
-                  sequence<[EnforceRange] unsigned long> sizes,
+                  sequence<Index32> starts,
+                  sequence<Index32> sizes,
                   optional MLOperatorOptions options = {});
 };
 
@@ -860,7 +862,7 @@ dictionary MLSplitOptions : MLOperatorOptions {
 partial interface MLGraphBuilder {
   sequence<MLOperand> split(
       MLOperand input,
-      ([EnforceRange] unsigned long or sequence<[EnforceRange] unsigned long>) splits,
+      ([EnforceRange] unsigned long or sequence<Index32>) splits,
       optional MLSplitOptions options = {});
 };
 
@@ -882,7 +884,7 @@ partial dictionary MLOpSupportLimits {
 };
 
 dictionary MLTransposeOptions : MLOperatorOptions {
-  sequence<[EnforceRange] unsigned long> permutation;
+  sequence<Index32> permutation;
 };
 
 partial interface MLGraphBuilder {
